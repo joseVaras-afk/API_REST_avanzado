@@ -1,4 +1,6 @@
 package ApiAvanzado.SistemaInventario.model.entity.dto;
+import ApiAvanzado.SistemaInventario.model.entity.Venta;
+import ApiAvanzado.SistemaInventario.model.entity.Producto;
 import java.io.Serializable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,10 +15,10 @@ import lombok.NoArgsConstructor;
 public class DetalleVentaDto implements Serializable {
     
     private Integer idDetalleVenta;
-    @NotNull(message = "El id de venta no puede ser nulo")
-    private Integer idVenta;
+
+    private Venta Venta;
     @NotNull(message = "El id de producto no puede ser nulo")
-    private Integer idProducto;
+    private Producto producto;
     @NotNull(message = "La cantidad no puede ser nula")
     private Integer cantidad;
     @NotNull(message = "El precio no puede ser nulo")

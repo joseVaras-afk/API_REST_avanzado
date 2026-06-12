@@ -29,7 +29,7 @@ public class DetalleVenta {
 
     @ManyToOne
     @JoinColumn(name = "id_producto")
-    private Integer idProducto;
+    private Producto producto;
 
     @Column(name = "cantidad")
     private Integer cantidad;

@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ApiAvanzado.SistemaInventario.service.IDetalleVenta;
 import ApiAvanzado.SistemaInventario.repository.DetalleVentaRepo;
+import ApiAvanzado.SistemaInventario.repository.VentaRepo;
 import ApiAvanzado.SistemaInventario.model.entity.DetalleVenta;
+import ApiAvanzado.SistemaInventario.model.entity.Venta;
 import ApiAvanzado.SistemaInventario.model.entity.dto.DetalleVentaDto;
 
 public class DetalleVentaImpl implements IDetalleVenta {
@@ -14,12 +16,16 @@ public class DetalleVentaImpl implements IDetalleVenta {
     @Autowired
     private DetalleVentaRepo detalleVentaRepo;
 
+    @Autowired
+    private VentaRepo ventaRepo;
+
     @Override
     @Transactional
     public DetalleVenta crearDetalleVenta(DetalleVentaDto detalleVentaDto) {
+        Venta venta = ventaRepo.findById(detalleVentaDto.getVenta().getIdVenta()).orElse(null);
         DetalleVenta detalleVenta = DetalleVenta.builder()
-                .venta(detalleVentaDto.getIdVenta())
-                .idProducto(detalleVentaDto.getIdProducto())
+                .venta(venta)
+                .producto(detalleVentaDto.getProducto())
                 .cantidad(detalleVentaDto.getCantidad())
                 .precioUnitario(detalleVentaDto.getPrecioUnitario())
                 .build();
@@ -44,8 +50,8 @@ public class DetalleVentaImpl implements IDetalleVenta {
     public DetalleVenta actualizarDetalleVenta(Integer id, DetalleVentaDto detalleVentaDto) {
         DetalleVenta detalleVentaExistente = detalleVentaRepo.findById(id).orElse(null);
         if (detalleVentaExistente != null) {
-            detalleVentaExistente.setIdVenta(detalleVentaDto.getIdVenta());
-            detalleVentaExistente.setIdProducto(detalleVentaDto.getIdProducto());
+            detalleVentaExistente.setVenta(detalleVentaDto.getVenta());
+            detalleVentaExistente.setProducto(detalleVentaDto.getProducto());
             detalleVentaExistente.setCantidad(detalleVentaDto.getCantidad());
             detalleVentaExistente.setPrecioUnitario(detalleVentaDto.getPrecioUnitario());
             return detalleVentaRepo.save(detalleVentaExistente);
