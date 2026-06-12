@@ -1,7 +1,12 @@
 package ApiAvanzado.SistemaInventario.model.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +20,17 @@ public class DetalleVenta {
     
     @Id
     @Column(name = "id_detalle")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDetalle;
-    @Column(name = "id_venta")
-    private Integer idVenta;
-    @Column(name = "id_producto")
+
+    @ManyToOne
+    @JoinColumn(name = "id_venta")
+    private Venta venta;
+
+    @ManyToOne
+    @JoinColumn(name = "id_producto")
     private Integer idProducto;
+
     @Column(name = "cantidad")
     private Integer cantidad;
     @Column(name = "precio_unitario")

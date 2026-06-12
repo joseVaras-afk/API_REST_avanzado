@@ -1,14 +1,17 @@
 package ApiAvanzado.SistemaInventario.model.entity.dto;
 import java.io.Serializable;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DetalleVentaDto implements Serializable {
     
-    @NotNull(message = "El id no puede ser nulo")
     private Integer idDetalleVenta;
     @NotNull(message = "El id de venta no puede ser nulo")
     private Integer idVenta;

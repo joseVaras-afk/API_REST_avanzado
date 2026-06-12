@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ApiAvanzado.SistemaInventario.service.IProducto;
+import ApiAvanzado.SistemaInventario.repository.CategoriaRepo;
 import ApiAvanzado.SistemaInventario.repository.ProductoRepo;
+import ApiAvanzado.SistemaInventario.model.entity.Categoria;
 import ApiAvanzado.SistemaInventario.model.entity.Producto;
 import ApiAvanzado.SistemaInventario.model.entity.dto.ProductoDto;
 import ApiAvanzado.SistemaInventario.model.entity.dto.UsuarioDto;
@@ -15,14 +17,39 @@ public class ProductoImpl implements IProducto {
     @Autowired
     private ProductoRepo productoRepo;
 
+    @Autowired
+    private CategoriaRepo categoriaRepo;
+
     @Override
     @Transactional
     public Producto crearProducto(ProductoDto productoDto) {
-        Producto producto = Producto.builder()
+        String nombreCategoria = productoDto.getCategoria().getNombre();
+        Categoria categoria = categoriaRepo.findByNombre(nombreCategoria).orElseGet(() -> {
+        Categoria nuevaCat = new Categoria();
+        nuevaCat.setNombre(productoDto.getCategoria().getNombre());
+        return nuevaCat;
+    });
+        if (categoria != null) {
+            Producto producto = Producto.builder()
                 .nombre(productoDto.getNombre())
+                .descripcion(productoDto.getDescripcion())
                 .precio(productoDto.getPrecio())
+                .stock(productoDto.getStock())
+                .categoria(categoria)
                 .build();
-        return productoRepo.save(producto);
+                return productoRepo.save(producto);
+        }else{
+            CategoriaImpl categoriaImpl = new CategoriaImpl();
+            Producto producto = Producto.builder()
+            .nombre(productoDto.getNombre())
+            .descripcion(productoDto.getDescripcion())
+            .precio(productoDto.getPrecio())
+            .stock(productoDto.getStock())
+            .categoria(categoriaImpl.crearCategoria(productoDto.getCategoria()))
+            .build();
+            return productoRepo.save(producto);
+        }
+        
     }
 
     @Transactional(readOnly = true)

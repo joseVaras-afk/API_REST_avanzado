@@ -1,9 +1,7 @@
 package ApiAvanzado.SistemaInventario.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import ApiAvanzado.SistemaInventario.model.entity.dto.CategoriaDto;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,6 +15,7 @@ public class Producto {
 
     @Id
     @Column(name = "id_producto")
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProducto;
     @Column(name = "nombre")
     private String nombre;
@@ -26,6 +25,7 @@ public class Producto {
     private Double precio;
     @Column(name = "stock")
     private Integer stock;
-    @Column(name = "id_categoria")
-    private Integer idCategoria;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
 }

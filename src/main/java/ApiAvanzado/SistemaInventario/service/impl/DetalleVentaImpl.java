@@ -18,7 +18,7 @@ public class DetalleVentaImpl implements IDetalleVenta {
     @Transactional
     public DetalleVenta crearDetalleVenta(DetalleVentaDto detalleVentaDto) {
         DetalleVenta detalleVenta = DetalleVenta.builder()
-                .idVenta(detalleVentaDto.getIdVenta())
+                .venta(detalleVentaDto.getIdVenta())
                 .idProducto(detalleVentaDto.getIdProducto())
                 .cantidad(detalleVentaDto.getCantidad())
                 .precioUnitario(detalleVentaDto.getPrecioUnitario())
