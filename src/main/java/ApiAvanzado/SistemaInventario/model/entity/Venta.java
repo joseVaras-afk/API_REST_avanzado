@@ -1,4 +1,7 @@
 package ApiAvanzado.SistemaInventario.model.entity;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +26,7 @@ public class Venta {
     private String fecha;
     @Column(name = "total")
     private Double total;
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleVenta> detalles = new ArrayList<>();
 
 }

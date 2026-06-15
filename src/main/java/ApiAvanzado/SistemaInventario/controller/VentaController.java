@@ -29,28 +29,15 @@ public class VentaController {
 
     @PostMapping("venta")
     public ResponseEntity<?> crearVenta(@Valid @RequestBody VentaDto ventaDto ){
-        try {
+
             Venta nuevaVenta = ventaService.crearVenta(ventaDto);
-            if (nuevaVenta.getUsuario()==null) {
-                return new ResponseEntity<>(MesageResponse.builder()
-            .message("usuario invalido")
-            .object(nuevaVenta)
-            .build(), HttpStatus.NOT_FOUND);
-            
-            }else{
-                return new ResponseEntity<>(
+
+            return new ResponseEntity<>(
                 MesageResponse.builder()
                 .message("venta registrada con exito")
                 .object(nuevaVenta)
                 .build(),HttpStatus.CREATED);
-            }
             
-        } catch (DataAccessException exDt) {
-            return new ResponseEntity<>(MesageResponse
-                    .builder()
-                    .message("Error al acceder a la base de datos: " + exDt.getMessage())
-                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
 }

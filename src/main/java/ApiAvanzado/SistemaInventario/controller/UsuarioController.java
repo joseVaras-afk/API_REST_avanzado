@@ -38,7 +38,7 @@ public class UsuarioController {
             } catch (DataAccessException exDt) {
             return new ResponseEntity<>(MesageResponse
                     .builder()
-                    .message("Error al acceder a la base de datos: " + exDt.getMessage())
+                    .message("Error al acceder a la base de datos de usuario: " + exDt.getMessage())
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

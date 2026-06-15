@@ -8,13 +8,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "detalle_venta")
 public class DetalleVenta {
     
@@ -33,8 +36,6 @@ public class DetalleVenta {
 
     @Column(name = "cantidad")
     private Integer cantidad;
-    @Column(name = "precio_unitario")
-    private Double precioUnitario;
     @Column(name = "total")
     private Double total;
 }

@@ -10,5 +10,5 @@ public interface IVentas {
 
     Void eliminarVenta(Integer id);
     
-    Venta actualizarVenta(Integer id, VentaDto ventaDto);
+
 }

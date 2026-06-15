@@ -1,6 +1,7 @@
 package ApiAvanzado.SistemaInventario.model.entity.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import ApiAvanzado.SistemaInventario.model.entity.Usuario;
 import jakarta.validation.constraints.NotNull;
@@ -18,11 +19,10 @@ public class VentaDto implements Serializable {
     
     private Integer idVenta;
     @NotNull(message = "El id de usuario no puede ser nulo")
-    private Usuario usuario;
+    private Integer id_usuario;
     @NotNull(message = "La fecha no puede ser nula")
     private String fecha;
-    @NotNull(message = "El total no puede ser nulo")
-    private Double total;
+    private List<DetalleVentaDto> detalles;
 
 
 }

@@ -2,12 +2,16 @@ package ApiAvanzado.SistemaInventario.model.entity;
 
 import ApiAvanzado.SistemaInventario.model.entity.dto.CategoriaDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Table(name = "productos")
 public class Producto {
