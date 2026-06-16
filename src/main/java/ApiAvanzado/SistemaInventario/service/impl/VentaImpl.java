@@ -1,5 +1,8 @@
 package ApiAvanzado.SistemaInventario.service.impl;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +86,7 @@ public class VentaImpl implements IVentas {
             DetalleVenta detalle = DetalleVenta.builder()
                     .venta(venta)
                     .producto(producto)
+                    .precioUnitario(producto.getPrecio())
                     .cantidad(detalleDto.getCantidad())
                     .build();
             double subtotal = detalle.getCantidad() * producto.getPrecio();
@@ -101,13 +105,44 @@ public class VentaImpl implements IVentas {
 
     @Transactional(readOnly = true)
     @Override
-    public Venta obtenerVentaPorId(Integer id) {
-        return ventaRepo.findById(id).orElse(null);
+    public VentaDto obtenerVentaPorId(Integer id) {
+        Venta venta = ventaRepo.findById(id).orElseThrow(() -> new RuntimeException("venta no encontrada"));
+
+        List<DetalleVentaDto> detallesDto = venta.getDetalles().stream()
+                .map(d -> DetalleVentaDto.builder()
+                        .idDetalleVenta(d.getIdDetalle())
+                        .idproducto(d.getProducto().getIdProducto())
+                        .cantidad(d.getCantidad())
+                        .precioUnitario(d.getPrecioUnitario())
+                        .build())
+                .toList();
+
+        return VentaDto.builder()
+                .fecha(venta.getFecha())
+                .idVenta(venta.getIdVenta())
+                .id_usuario(venta.getUsuario().getIdUsuario())
+                .detalles(detallesDto)
+                .total(venta.getTotal())
+                .build();
     }
 
     @Override
     @Transactional
     public Void eliminarVenta(Integer id) {
+         Venta venta = ventaRepo.findById(id).orElseThrow(() -> new RuntimeException("venta no encontrada"));
+        List<DetalleVentaDto> detallesDto = venta.getDetalles().stream()
+                .map(d -> DetalleVentaDto.builder()
+                        .idDetalleVenta(d.getIdDetalle())
+                        .idproducto(d.getProducto().getIdProducto())
+                        .cantidad(d.getCantidad())
+                        // Agrega subtotal/precio unitario si tus DTOs los tienen
+                        .build())
+                .toList();
+
+        for (DetalleVentaDto detalleVentaDto : detallesDto) {
+            detalleVentaRepo.deleteById(detalleVentaDto.getIdDetalleVenta());
+        }
+
         ventaRepo.deleteById(id);
         return null;
     }

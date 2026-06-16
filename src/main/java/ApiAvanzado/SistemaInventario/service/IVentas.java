@@ -6,7 +6,7 @@ public interface IVentas {
     
     Venta crearVenta(VentaDto ventaDto);
 
-    Venta obtenerVentaPorId(Integer id);
+    VentaDto obtenerVentaPorId(Integer id);
 
     Void eliminarVenta(Integer id);
     

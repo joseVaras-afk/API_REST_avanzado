@@ -23,6 +23,7 @@ public class VentaDto implements Serializable {
     @NotNull(message = "La fecha no puede ser nula")
     private String fecha;
     private List<DetalleVentaDto> detalles;
+    private Double total;
 
 
 }

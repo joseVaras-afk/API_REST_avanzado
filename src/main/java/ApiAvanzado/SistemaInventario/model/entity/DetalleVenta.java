@@ -33,7 +33,8 @@ public class DetalleVenta {
     @ManyToOne
     @JoinColumn(name = "id_producto")
     private Producto producto;
-
+    @Column(name ="precio_unitario")
+    private Double precioUnitario;
     @Column(name = "cantidad")
     private Integer cantidad;
     @Column(name = "total")

@@ -40,4 +40,40 @@ public class VentaController {
             
     }
 
+    @GetMapping("venta/{id}")
+    public ResponseEntity<?> buscarVenta(@Valid @PathVariable Integer id){
+        VentaDto venta = ventaService.obtenerVentaPorId(id);
+
+        return new ResponseEntity<>(MesageResponse.builder()
+                .message("Venta encontrada")    
+                .object(venta).build(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("venta/{id}")
+    public ResponseEntity<?> eliminarVenta(@Valid @PathVariable Integer id){
+        VentaDto venta = ventaService.obtenerVentaPorId(id);
+
+        try {
+            if (venta == null) {
+                return new ResponseEntity<>(MesageResponse
+                        .builder()
+                        .message("Id de venta incorrecto")
+                        .build(), HttpStatus.NOT_FOUND);
+                
+            }else {
+                ventaService.eliminarVenta(id);
+                return new ResponseEntity<>(MesageResponse
+                    .builder()
+                    .message("Venta eliminada")
+                    .build(), HttpStatus.NO_CONTENT);
+            }
+            
+        } catch (DataAccessException exDt) {
+            return new ResponseEntity<>(MesageResponse
+                    .builder()
+                    .message("Error al acceder a la base de datos: " + exDt.getMessage())
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
